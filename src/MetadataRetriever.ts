@@ -1,18 +1,20 @@
-import { ILocationMetadataRetriever } from "./ILocationMetadataRetriever";
+import { IDataRetriever } from "./IDataRetriever";
+import {AppConfig} from "./AppConfig";
 import {LocationMetadata} from "./LocationMetadata";
 import {IDownloader} from "./IDownloader";
 
-class LocationMetadataRetriever implements ILocationMetadataRetriever
+class MetadataRetriever implements IDataRetriever<LocationMetadata>
 {
     downloader: IDownloader;
-    metadataEndpoint: string = "https://data.nsw.gov.au/data/api/3/action/package_show?id=0a52e6c1-bc0b-48af-8b45-d791a6d8e289";
-
-    constructor(downloader:IDownloader){
+    metadataEndpointUrl: string;
+    
+    constructor(downloader:IDownloader, appConfig:AppConfig){
         this.downloader = downloader;
+        this.metadataEndpointUrl = appConfig.metadataEndpointUrl;
     }    
 
     Get(): LocationMetadata {
-        var data = this.downloader.Download(this.metadataEndpoint);        
+        var data = this.downloader.Download(this.metadataEndpointUrl);        
         var jsonObj = JSON.parse(data);        
         var LocationMetadata:LocationMetadata = jsonObj.result.resources.filter((x:any) => x.name.toLowerCase().includes("current case"))[0];
         return LocationMetadata;
