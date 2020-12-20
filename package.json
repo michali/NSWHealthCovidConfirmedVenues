@@ -1,0 +1,28 @@
+{
+  "name": "nswhealthcoronaextension",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jasmine": "^3.6.2",
+    "jasmine": "^3.6.3",
+    "nyc": "^15.1.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  },
+  "scripts": {
+    "test": "ts-node node_modules/jasmine/bin/jasmine --config=jasmine.json"
+  },
+  "keywords": [
+    "nsw",
+    "coronavirus",
+    "COVID-19",
+    "contact-tracing"
+  ],
+  "author": "Michali K",
+  "license": "ISC"
+}
