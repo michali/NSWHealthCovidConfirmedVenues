@@ -1,15 +1,13 @@
-import { IDataRetriever } from "./IDataRetriever";
+import { IMetaDataRetriever } from "./IMetaDataRetriever";
 import {AppConfig} from "./AppConfig";
 import {LocationMetadata} from "./LocationMetadata";
 import {IDownloader} from "./IDownloader";
 
-class MetadataRetriever implements IDataRetriever<LocationMetadata>
+export class MetadataRetriever implements IMetaDataRetriever
 {
-    downloader: IDownloader;
-    metadataEndpointUrl: string;
+    private metadataEndpointUrl: string;
     
-    constructor(downloader:IDownloader, appConfig:AppConfig){
-        this.downloader = downloader;
+    constructor(private downloader:IDownloader, appConfig:AppConfig){
         this.metadataEndpointUrl = appConfig.metadataEndpointUrl;
     }    
 
