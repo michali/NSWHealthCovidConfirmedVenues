@@ -12,13 +12,8 @@ export class NewVenuesRetriever{
         var metadata = this.locationMetadataRetriever.Get();
         var locations = this.locationRetriever.Get(metadata.url);
 
-        if (this._existingLocations.length > 0){
-            var newLocations = locations.filter(({ name: name1 }) => !this._existingLocations.some(({ name: name2 }) => name1 === name2)); //x => !this._existingLocations.has(x)));
-            this._existingLocations = locations;            
-            return newLocations;
-        }
-
-        this._existingLocations = locations;
-        return locations;
+        var newLocations = locations.filter(({ name: name1 }) => !this._existingLocations.some(({ name: name2 }) => name1 === name2)); //x => !this._existingLocations.has(x)));
+        this._existingLocations = locations;            
+        return newLocations; 
     }
 }
