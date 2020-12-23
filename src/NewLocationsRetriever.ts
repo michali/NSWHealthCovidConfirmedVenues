@@ -3,7 +3,7 @@ import { ILocationRetriever } from "./ILocationRetriever";
 import { Location } from "./Location";
 import { IStorageWrapper } from "./BrowserWrappers/IStorageWrapper";
 
-export class NewVenuesRetriever{
+export class NewLocationsRetriever{
     constructor(private _locationMetadataRetriever: IMetaDataRetriever, private _locationRetriever: ILocationRetriever, private _storage: IStorageWrapper<Location[]>){
     }
 

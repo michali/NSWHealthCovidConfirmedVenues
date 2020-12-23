@@ -1,18 +1,31 @@
 
-import {NewVenuesRetriever as NewLocationsRetriever} from '../src/NewLocationsRetriever';
-import { FakeStorageWrapper as FakeLocationStorageWrapper } from './FakeStorageWrapper';
+import { IStorageWrapper } from '../src/BrowserWrappers/IStorageWrapper';
+import { NewLocationsRetriever } from '../src/NewLocationsRetriever';
+
+class FakeLocationStorageWrapper implements IStorageWrapper<Location[]>{
+
+    private _store:Map<string, Location[]> = new Map<string, Location[]>();
+
+    Add(key: string, value: Location[]): void {
+        this._store.set(key, value);
+    }
+    
+    Get(key: string):Location[] | undefined {
+        return this._store.get(key);       
+    }
+}
 
 describe("New Locations Retriever", function() {
 
     var metadataRetriever:any;
     var locationRetriever:any;
     var storageWrapper: any;
-    var newVenuesRetriever: NewLocationsRetriever; 
+    var newLocationsRetriever: NewLocationsRetriever; 
     beforeEach(() => {
         metadataRetriever = jasmine.createSpyObj("metadataRetriever", ["Get"]);
         locationRetriever = jasmine.createSpyObj("locationRetriever", ["Get"]);
         storageWrapper = new FakeLocationStorageWrapper();
-        newVenuesRetriever = new NewLocationsRetriever(metadataRetriever, locationRetriever, storageWrapper);
+        newLocationsRetriever = new NewLocationsRetriever(metadataRetriever, locationRetriever, storageWrapper);
     });
           
     it("First run gets all locations", function() {
@@ -31,7 +44,7 @@ describe("New Locations Retriever", function() {
             address: "address 2"
         }]);
 
-        var updates = newVenuesRetriever.Get();
+        var updates = newLocationsRetriever.Get();
 
         expect(updates).toHaveSize(2);
     });
@@ -45,23 +58,38 @@ describe("New Locations Retriever", function() {
 
         locationRetriever.Get.withArgs("https://path.to/url").and.returnValue([{
             name: "venue name 1",
-            address: "address 1"
+            address: "address 1",
+            suburb: "suburb",
+            date: "date",
+            time: "time",
+            alert: "alert",
+            healthAdviceHtml: "health advice"
         }]);
 
-        newVenuesRetriever.Get();
+        newLocationsRetriever.Get();
 
         var newLocation = {
             name: "venue name 2",
-            address: "address 2"
+            address: "address 2",
+            suburb: "suburb",
+            date: "date",
+            time: "time",
+            alert: "alert",
+            healthAdviceHtml: "health advice"
         }
 
         locationRetriever.Get.withArgs("https://path.to/url").and.returnValue([{
             name: "venue name 1",
-            address: "address 1"
+            address: "address 1",
+            suburb: "suburb",
+            date: "date",
+            time: "time",
+            alert: "alert",
+            healthAdviceHtml: "health advice"
         },
         newLocation]);
 
-        var updates = newVenuesRetriever.Get();
+        var updates = newLocationsRetriever.Get();
 
         expect(updates).toHaveSize(1);
         expect(updates[0]).toBe(newLocation);
@@ -76,21 +104,36 @@ describe("New Locations Retriever", function() {
 
         locationRetriever.Get.withArgs("https://path.to/url").and.returnValue([{
             name: "venue name 1",
-            address: "address 1"
+            address: "address 1",
+            suburb: "suburb",
+            date: "date",
+            time: "time",
+            alert: "alert",
+            healthAdviceHtml: "health advice"
         },
         {
             name: "venue name 2",
-            address: "address 2"  
+            address: "address 2",
+            suburb: "suburb",
+            date: "date",
+            time: "time",
+            alert: "alert",
+            healthAdviceHtml: "health advice"
         }]);
 
-        newVenuesRetriever.Get();
+        newLocationsRetriever.Get();
 
         locationRetriever.Get.withArgs("https://path.to/url").and.returnValue([{
             name: "venue name 1",
-            address: "address 1"
+            address: "address 1",
+            suburb: "suburb",
+            date: "date",
+            time: "time",
+            alert: "alert",
+            healthAdviceHtml: "health advice"
         }]);
 
-        var updates = newVenuesRetriever.Get();
+        var updates = newLocationsRetriever.Get();
 
         expect(updates).toHaveSize(0);
     });
@@ -104,23 +147,38 @@ describe("New Locations Retriever", function() {
 
         locationRetriever.Get.withArgs("https://path.to/url").and.returnValue([{
             name: "venue name 1",
-            address: "address 1"
+            address: "address 1",
+            suburb: "suburb",
+            date: "date",
+            time: "time",
+            alert: "alert",
+            healthAdviceHtml: "health advice"
         },
         {
             name: "venue name 2",
-            address: "address 2"  
+            address: "address 2",
+            suburb: "suburb",
+            date: "date",
+            time: "time",
+            alert: "alert",
+            healthAdviceHtml: "health advice"
         }]);
 
-        newVenuesRetriever.Get();
+        newLocationsRetriever.Get();
 
         var newLocation = {
             name: "venue name 3",
-            address: "address 3"
+            address: "address 3",
+            suburb: "suburb",
+            date: "date",
+            time: "time",
+            alert: "alert",
+            healthAdviceHtml: "health advice"
         }
 
         locationRetriever.Get.withArgs("https://path.to/url").and.returnValue([newLocation]);
 
-        var updates = newVenuesRetriever.Get();
+        var updates = newLocationsRetriever.Get();
 
         expect(updates).toHaveSize(1);
         expect(updates[0]).toBe(newLocation);
