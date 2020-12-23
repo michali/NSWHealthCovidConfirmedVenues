@@ -12,15 +12,15 @@ export class LocationRetriever implements ILocationRetriever{
         var jsonObj = JSON.parse(data);
         var locations:Location[] = [];
         jsonObj.data.monitor.forEach((element:any) => {
-            locations.push(this.Map(element));
+            locations.push(this.Map(element, "monitor"));
         });
         jsonObj.data.isolate.forEach((element:any) => {
-            locations.push(this.Map(element));
+            locations.push(this.Map(element, "isolate"));
         });
         return locations;
     }    
 
-    private Map(element:any):Location{
+    private Map(element:any, venueType:string):Location{
         return {
             name: element.Venue,
             address: element.Address,
@@ -28,7 +28,8 @@ export class LocationRetriever implements ILocationRetriever{
             date: element.Date,
             time: element.Time,
             alert: element.Alert,
-            healthAdviceHtml: element.HealthAdviceHTML
+            healthAdviceHtml: element.HealthAdviceHTML,
+            type: venueType
         }
     }
 }

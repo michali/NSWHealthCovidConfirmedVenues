@@ -58,6 +58,7 @@ describe("Locations Retriever", function() {
         expect(result[0].time).toBe("2pm to 2:30pm");
         expect(result[0].alert).toBe("Monitor for symptoms");
         expect(result[0].healthAdviceHtml).toBe("Monitor");
+        expect(result[0].type).toBe("monitor");
 
         expect(result[1].name).toBe("Isolate Venue 1");
         expect(result[1].address).toBe("Isolate Address 1");
@@ -66,5 +67,6 @@ describe("Locations Retriever", function() {
         expect(result[1].time).toBe("4pm to 4:30pm");
         expect(result[1].alert).toBe("Isolate");
         expect(result[1].healthAdviceHtml).toBe("Isolate");
+        expect(result[1].type).toBe("isolate");
     });
 });

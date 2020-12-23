@@ -63,7 +63,8 @@ describe("New Locations Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthAdviceHtml: "health advice"
+            healthAdviceHtml: "health advice",
+            type:"foo"
         }]);
 
         newLocationsRetriever.Get();
@@ -75,7 +76,8 @@ describe("New Locations Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthAdviceHtml: "health advice"
+            healthAdviceHtml: "health advice",
+            type:"foo"
         }
 
         locationRetriever.Get.withArgs("https://path.to/url").and.returnValue([{
@@ -85,7 +87,8 @@ describe("New Locations Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthAdviceHtml: "health advice"
+            healthAdviceHtml: "health advice",
+            type:"foo"
         },
         newLocation]);
 
@@ -109,7 +112,8 @@ describe("New Locations Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthAdviceHtml: "health advice"
+            healthAdviceHtml: "health advice",
+            type:"foo"
         },
         {
             name: "venue name 2",
@@ -118,7 +122,8 @@ describe("New Locations Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthAdviceHtml: "health advice"
+            healthAdviceHtml: "health advice",
+            type:"foo"
         }]);
 
         newLocationsRetriever.Get();
@@ -130,7 +135,8 @@ describe("New Locations Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthAdviceHtml: "health advice"
+            healthAdviceHtml: "health advice",
+            type:"foo"
         }]);
 
         var updates = newLocationsRetriever.Get();
@@ -152,7 +158,8 @@ describe("New Locations Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthAdviceHtml: "health advice"
+            healthAdviceHtml: "health advice",
+            type:"foo"
         },
         {
             name: "venue name 2",
@@ -161,7 +168,8 @@ describe("New Locations Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthAdviceHtml: "health advice"
+            healthAdviceHtml: "health advice",
+            type:"foo"
         }]);
 
         newLocationsRetriever.Get();
@@ -173,7 +181,8 @@ describe("New Locations Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthAdviceHtml: "health advice"
+            healthAdviceHtml: "health advice",
+            type:"foo"
         }
 
         locationRetriever.Get.withArgs("https://path.to/url").and.returnValue([newLocation]);
