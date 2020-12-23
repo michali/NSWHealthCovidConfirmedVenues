@@ -12,29 +12,23 @@ export class LocationRetriever implements ILocationRetriever{
         var jsonObj = JSON.parse(data);
         var locations:Location[] = [];
         jsonObj.data.monitor.forEach((element:any) => {
-            var location = {
-                name: element.Venue,
-                address: element.Address,
-                suburb: element.Suburb,
-                date: element.Date,
-                time: element.Time,
-                alert: element.Alert,
-                healthAdviceHtml: element.HealthAdviceHTML
-            }
-            locations.push(location);
+            locations.push(this.Map(element));
         });
         jsonObj.data.isolate.forEach((element:any) => {
-            var location = {
-                name: element.Venue,
-                address: element.Address,
-                suburb: element.Suburb,
-                date: element.Date,
-                time: element.Time,
-                alert: element.Alert,
-                healthAdviceHtml: element.HealthAdviceHTML
-            }
-            locations.push(location);
+            locations.push(this.Map(element));
         });
         return locations;
     }    
+
+    private Map(element:any):Location{
+        return {
+            name: element.Venue,
+            address: element.Address,
+            suburb: element.Suburb,
+            date: element.Date,
+            time: element.Time,
+            alert: element.Alert,
+            healthAdviceHtml: element.HealthAdviceHTML
+        }
+    }
 }
