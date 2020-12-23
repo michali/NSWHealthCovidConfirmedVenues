@@ -1,15 +1,18 @@
 
 import {NewVenuesRetriever as NewLocationsRetriever} from '../src/NewLocationsRetriever';
+import { FakeStorageWrapper as FakeLocationStorageWrapper } from './FakeStorageWrapper';
 
 describe("New Locations Retriever", function() {
 
     var metadataRetriever:any;
     var locationRetriever:any;
+    var storageWrapper: any;
     var newVenuesRetriever: NewLocationsRetriever; 
     beforeEach(() => {
         metadataRetriever = jasmine.createSpyObj("metadataRetriever", ["Get"]);
         locationRetriever = jasmine.createSpyObj("locationRetriever", ["Get"]);
-        newVenuesRetriever = new NewLocationsRetriever(metadataRetriever, locationRetriever);
+        storageWrapper = new FakeLocationStorageWrapper();
+        newVenuesRetriever = new NewLocationsRetriever(metadataRetriever, locationRetriever, storageWrapper);
     });
           
     it("First run gets all locations", function() {
