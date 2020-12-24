@@ -57,7 +57,7 @@ describe("New Venues Retriever", function() {
     it("Second run, if new venues, return only new venues", function() {
       
         metadataRetriever.Get.and.returnValue({
-            last_modified: "2020-12-21T02:14:45.944132",
+            last_modified: "2020-12-21T02:14:45.000000",
             url: "https://path.to/url"
         });
 
@@ -96,6 +96,11 @@ describe("New Venues Retriever", function() {
             type:"foo"
         },
         newVenue]);
+
+        metadataRetriever.Get.and.returnValue({
+            last_modified: "2020-12-21T02:14:50.000000",
+            url: "https://path.to/url"
+        });
 
         var updates = newVenuesRetriever.Get();
 
@@ -152,7 +157,7 @@ describe("New Venues Retriever", function() {
     it("Second run, if set different, return new set only", function() {
       
         metadataRetriever.Get.and.returnValue({
-            last_modified: "2020-12-21T02:14:45.944132",
+            last_modified: "2020-12-21T02:14:45.000000",
             url: "https://path.to/url"
         });
 
@@ -190,6 +195,11 @@ describe("New Venues Retriever", function() {
             type:"foo"
         }
 
+        metadataRetriever.Get.and.returnValue({
+            last_modified: "2020-12-21T02:14:50.000000",
+            url: "https://path.to/url"
+        });
+
         venueRetriever.Get.withArgs("https://path.to/url").and.returnValue([newVenue]);
 
         var updates = newVenuesRetriever.Get();
@@ -198,30 +208,29 @@ describe("New Venues Retriever", function() {
         expect(updates[0]).toBe(newVenue);
     });
 
+    it("If data hasn't changed in second run, don't download", function() {
+        metadataRetriever.Get.and.returnValue({
+            last_modified: "2020-12-21T02:14:45.944132",
+            url: "https://path.to/url"
+        });
 
-    // it("If data hasn't changed in second run, don't download", function() {
-    //     metadataRetriever.Get.and.returnValue({
-    //         last_modified: "2020-12-21T02:14:45.944132",
-    //         url: "https://path.to/url"
-    //     });
+        venueRetriever.Get.withArgs("https://path.to/url").and.returnValue([{
+            name: "venue name 1",
+            address: "address 1",
+            suburb: "suburb",
+            date: "date",
+            time: "time",
+            alert: "alert",
+            healthAdviceHtml: "health advice",
+            type:"foo"
+        }]);
 
-    //     venueRetriever.Get.withArgs("https://path.to/url").and.returnValue([{
-    //         name: "venue name 1",
-    //         address: "address 1",
-    //         suburb: "suburb",
-    //         date: "date",
-    //         time: "time",
-    //         alert: "alert",
-    //         healthAdviceHtml: "health advice",
-    //         type:"foo"
-    //     }]);
-
-    //     newVenuesRetriever.Get();
-
-    //     var result = newVenuesRetriever.Get();
-
-    //     expect(venueRetriever.Get).toHaveBeenCalledTimes(1);
-    // });
+        newVenuesRetriever.Get();
+        var venues = newVenuesRetriever.Get();
+        
+        expect(venues).toHaveSize(0);
+        expect(venueRetriever.Get).toHaveBeenCalledTimes(1);
+    });
   });
       
   

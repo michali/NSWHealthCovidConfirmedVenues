@@ -14,7 +14,11 @@ export class NewVenuesRetriever{
     Get(): Venue[] {
         var metadata = this._venueMetadataRetriever.Get();
 
-       // if (metadata.last_modified === this._storage.Get<VenueMetadata>(this._venuesMetadataKey))
+       if (metadata.last_modified === this._storage.Get<VenueMetadata>(this._venuesMetadataKey)?.last_modified){
+           return [];
+       }
+
+       this._storage.Add(this._venuesMetadataKey, metadata);
 
         var venues = this._venueRetriever.Get(metadata.url);
 
