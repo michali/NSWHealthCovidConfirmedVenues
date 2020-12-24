@@ -14,6 +14,9 @@ export class VenueRetriever implements IVenueRetriever{
         jsonObj.data.monitor.forEach((element:any) => {
             venues.push(this.Map(element, "monitor"));
         });
+        jsonObj.data.negative.forEach((element:any) => {
+            venues.push(this.Map(element, "test_until_negative"));
+        });
         jsonObj.data.isolate.forEach((element:any) => {
             venues.push(this.Map(element, "isolate"));
         });
@@ -28,7 +31,7 @@ export class VenueRetriever implements IVenueRetriever{
             date: element.Date,
             time: element.Time,
             alert: element.Alert,
-            healthInformationHtml: element.HealthInformationHTML,
+            healthInformationHtml: element.HealthinformationHTML,
             type: venueType
         }
     }

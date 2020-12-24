@@ -25,9 +25,22 @@ describe("Venue Retriever", function() {
                     "Alert": "Monitor for symptoms",
                     "Lon": 1.1,
                     "Lat": 1.1,
-                    "HealthInformationHTML": "Monitor"
+                    "HealthinformationHTML": "Monitor"
                 }
             ],
+            "negative": [
+                {
+                    "Venue": "Negative Venue 1",
+                    "Address": "Negative Address 1",
+                    "Suburb": "Suburb3",
+                    "Date": "Thursday 17 December 2020",
+                    "Time": "3pm to 3:30pm",
+                    "Alert": "Get tested immediately and self isolate until you receive a negative result",
+                    "Lon": 1.1,
+                    "Lat": 1.1,
+                    "HealthinformationHTML": "Get tested immediately and self isolate until you receive a negative result"
+                }
+            ],            
             "isolate": [
                 {
                     "Venue": "Isolate Venue 1",
@@ -38,9 +51,9 @@ describe("Venue Retriever", function() {
                     "Alert": "Isolate",
                     "Lon": 1.1,
                     "Lat": 1.1,
-                    "HealthInformationHTML": "Isolate"
+                    "HealthinformationHTML": "Isolate"
                 }
-            ]
+            ]            
         }
     }
     `;
@@ -50,7 +63,7 @@ describe("Venue Retriever", function() {
 
         var result = venueRetriever.Get("http://path.to.url");
 
-        expect(result).toHaveSize(2);
+        expect(result).toHaveSize(3);
         expect(result[0].name).toBe("Monitor Venue 1");
         expect(result[0].address).toBe("Monitor Address 1");
         expect(result[0].suburb).toBe("Suburb1");
@@ -60,13 +73,22 @@ describe("Venue Retriever", function() {
         expect(result[0].healthInformationHtml).toBe("Monitor");
         expect(result[0].type).toBe("monitor");
 
-        expect(result[1].name).toBe("Isolate Venue 1");
-        expect(result[1].address).toBe("Isolate Address 1");
-        expect(result[1].suburb).toBe("Suburb2");
-        expect(result[1].date).toBe("Wednesday 16 December 2020");
-        expect(result[1].time).toBe("4pm to 4:30pm");
-        expect(result[1].alert).toBe("Isolate");
-        expect(result[1].healthInformationHtml).toBe("Isolate");
-        expect(result[1].type).toBe("isolate");
+        expect(result[1].name).toBe("Negative Venue 1");
+        expect(result[1].address).toBe("Negative Address 1");
+        expect(result[1].suburb).toBe("Suburb3");
+        expect(result[1].date).toBe("Thursday 17 December 2020");
+        expect(result[1].time).toBe("3pm to 3:30pm");
+        expect(result[1].alert).toBe("Get tested immediately and self isolate until you receive a negative result");
+        expect(result[1].healthInformationHtml).toBe("Get tested immediately and self isolate until you receive a negative result");
+        expect(result[1].type).toBe("test_until_negative");
+
+        expect(result[2].name).toBe("Isolate Venue 1");
+        expect(result[2].address).toBe("Isolate Address 1");
+        expect(result[2].suburb).toBe("Suburb2");
+        expect(result[2].date).toBe("Wednesday 16 December 2020");
+        expect(result[2].time).toBe("4pm to 4:30pm");
+        expect(result[2].alert).toBe("Isolate");
+        expect(result[2].healthInformationHtml).toBe("Isolate");
+        expect(result[2].type).toBe("isolate");
     });
 });
