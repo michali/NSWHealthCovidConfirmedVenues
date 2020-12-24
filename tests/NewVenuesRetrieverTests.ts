@@ -63,7 +63,7 @@ describe("New Venues Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthInformationHtml: "health advice",
+            healthAdviceHtml: "health advice",
             type:"foo"
         }]);
 
@@ -76,7 +76,7 @@ describe("New Venues Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthInformationHtml: "health advice",
+            healthAdviceHtml: "health advice",
             type:"foo"
         }
 
@@ -87,7 +87,7 @@ describe("New Venues Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthInformationHtml: "health advice",
+            healthAdviceHtml: "health advice",
             type:"foo"
         },
         newVenue]);
@@ -112,7 +112,7 @@ describe("New Venues Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthInformationHtml: "health advice",
+            healthAdviceHtml: "health advice",
             type:"foo"
         },
         {
@@ -122,7 +122,7 @@ describe("New Venues Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthInformationHtml: "health advice",
+            healthAdviceHtml: "health advice",
             type:"foo"
         }]);
 
@@ -135,7 +135,7 @@ describe("New Venues Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthInformationHtml: "health advice",
+            healthAdviceHtml: "health advice",
             type:"foo"
         }]);
 
@@ -158,7 +158,7 @@ describe("New Venues Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthInformationHtml: "health advice",
+            healthAdviceHtml: "health advice",
             type:"foo"
         },
         {
@@ -168,7 +168,7 @@ describe("New Venues Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthInformationHtml: "health advice",
+            healthAdviceHtml: "health advice",
             type:"foo"
         }]);
 
@@ -181,7 +181,7 @@ describe("New Venues Retriever", function() {
             date: "date",
             time: "time",
             alert: "alert",
-            healthInformationHtml: "health advice",
+            healthAdviceHtml: "health advice",
             type:"foo"
         }
 

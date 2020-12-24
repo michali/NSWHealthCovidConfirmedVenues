@@ -31,7 +31,7 @@ export class VenueRetriever implements IVenueRetriever{
             date: element.Date,
             time: element.Time,
             alert: element.Alert,
-            healthInformationHtml: element.HealthinformationHTML,
+            healthAdviceHtml: element.HealthAdviceHTML,
             type: venueType
         }
     }

@@ -25,7 +25,7 @@ describe("Venue Retriever", function() {
                     "Alert": "Monitor for symptoms",
                     "Lon": 1.1,
                     "Lat": 1.1,
-                    "HealthinformationHTML": "Monitor"
+                    "HealthAdviceHTML": "Monitor"
                 }
             ],
             "negative": [
@@ -38,7 +38,7 @@ describe("Venue Retriever", function() {
                     "Alert": "Get tested immediately and self isolate until you receive a negative result",
                     "Lon": 1.1,
                     "Lat": 1.1,
-                    "HealthinformationHTML": "Get tested immediately and self isolate until you receive a negative result"
+                    "HealthAdviceHTML": "Get tested immediately and self isolate until you receive a negative result"
                 }
             ],            
             "isolate": [
@@ -51,7 +51,7 @@ describe("Venue Retriever", function() {
                     "Alert": "Isolate",
                     "Lon": 1.1,
                     "Lat": 1.1,
-                    "HealthinformationHTML": "Isolate"
+                    "HealthAdviceHTML": "Isolate"
                 }
             ]            
         }
@@ -70,7 +70,7 @@ describe("Venue Retriever", function() {
         expect(result[0].date).toBe("Tuesday 15 December 2020");
         expect(result[0].time).toBe("2pm to 2:30pm");
         expect(result[0].alert).toBe("Monitor for symptoms");
-        expect(result[0].healthInformationHtml).toBe("Monitor");
+        expect(result[0].healthAdviceHtml).toBe("Monitor");
         expect(result[0].type).toBe("monitor");
 
         expect(result[1].name).toBe("Negative Venue 1");
@@ -79,7 +79,7 @@ describe("Venue Retriever", function() {
         expect(result[1].date).toBe("Thursday 17 December 2020");
         expect(result[1].time).toBe("3pm to 3:30pm");
         expect(result[1].alert).toBe("Get tested immediately and self isolate until you receive a negative result");
-        expect(result[1].healthInformationHtml).toBe("Get tested immediately and self isolate until you receive a negative result");
+        expect(result[1].healthAdviceHtml).toBe("Get tested immediately and self isolate until you receive a negative result");
         expect(result[1].type).toBe("test_until_negative");
 
         expect(result[2].name).toBe("Isolate Venue 1");
@@ -88,7 +88,7 @@ describe("Venue Retriever", function() {
         expect(result[2].date).toBe("Wednesday 16 December 2020");
         expect(result[2].time).toBe("4pm to 4:30pm");
         expect(result[2].alert).toBe("Isolate");
-        expect(result[2].healthInformationHtml).toBe("Isolate");
+        expect(result[2].healthAdviceHtml).toBe("Isolate");
         expect(result[2].type).toBe("isolate");
     });
 });

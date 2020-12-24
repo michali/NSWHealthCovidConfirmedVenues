@@ -1,6 +1,6 @@
 export interface Venue{
     type: string;
-    healthInformationHtml:string;
+    healthAdviceHtml:string;
     alert: string;
     time: string;
     date:string;
