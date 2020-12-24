@@ -1,17 +1,22 @@
-import { IStorageWrapper } from '../src/BrowserWrappers/IStorageWrapper';
 import { NewVenuesRetriever } from '../src/NewVenuesRetriever';
-import { Venue } from '../src/Venue';
+import { IStorageWrapper } from '../src/BrowserWrappers/IStorageWrapper';
 
-class FakeVenueStorageWrapper implements IStorageWrapper<Venue[]>{
+class TestStorageWrapper implements IStorageWrapper{
 
-    private _store:Map<string, Venue[]> = new Map<string, Venue[]>();
+    private _store:Map<string, string> = new Map<string, string>();
 
-    Add(key: string, value: Venue[]): void {
-        this._store.set(key, value);
+    Add<T>(key: string, value: T): void {
+        var serialised = JSON.stringify(value);
+        this._store.set(key, serialised);
     }
     
-    Get(key: string):Venue[] | undefined {
-        return this._store.get(key);       
+    Get<T>(key: string):T | null {
+        var serialised = this._store.get(key);
+        if (serialised === undefined){
+            return null;
+        }  
+        var deserialised: T = JSON.parse(serialised);
+        return deserialised;
     }
 }
 
@@ -24,7 +29,7 @@ describe("New Venues Retriever", function() {
     beforeEach(() => {
         metadataRetriever = jasmine.createSpyObj("metadataRetriever", ["Get"]);
         venueRetriever = jasmine.createSpyObj("venueRetriever", ["Get"]);
-        storageWrapper = new FakeVenueStorageWrapper();
+        storageWrapper = new TestStorageWrapper();
         newVenuesRetriever = new NewVenuesRetriever(metadataRetriever, venueRetriever, storageWrapper);
     });
           
@@ -192,6 +197,31 @@ describe("New Venues Retriever", function() {
         expect(updates).toHaveSize(1);
         expect(updates[0]).toBe(newVenue);
     });
+
+
+    // it("If data hasn't changed in second run, don't download", function() {
+    //     metadataRetriever.Get.and.returnValue({
+    //         last_modified: "2020-12-21T02:14:45.944132",
+    //         url: "https://path.to/url"
+    //     });
+
+    //     venueRetriever.Get.withArgs("https://path.to/url").and.returnValue([{
+    //         name: "venue name 1",
+    //         address: "address 1",
+    //         suburb: "suburb",
+    //         date: "date",
+    //         time: "time",
+    //         alert: "alert",
+    //         healthAdviceHtml: "health advice",
+    //         type:"foo"
+    //     }]);
+
+    //     newVenuesRetriever.Get();
+
+    //     var result = newVenuesRetriever.Get();
+
+    //     expect(venueRetriever.Get).toHaveBeenCalledTimes(1);
+    // });
   });
       
   

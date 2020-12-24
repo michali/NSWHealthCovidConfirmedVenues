@@ -1,4 +1,4 @@
-export interface IStorageWrapper<T> {
-    Add(key:string, value:T): void;
-    Get(key: string): T | undefined;
+export interface IStorageWrapper {
+    Add<T>(key:string, value:T): void;
+    Get<T>(key: string): T | null;
 }
