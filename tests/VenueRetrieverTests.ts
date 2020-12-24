@@ -1,13 +1,13 @@
-import { LocationRetriever } from "../src/LocationRetriever";
+import { VenueRetriever } from "../src/VenueRetriever";
 
-describe("Locations Retriever", function() {
+describe("Venue Retriever", function() {
 
-    var locationRetriever : LocationRetriever;
+    var venueRetriever : VenueRetriever;
     var downloader:any;
 
     beforeEach(() => {
         downloader = jasmine.createSpyObj("downloader", ["Download"]);
-        locationRetriever = new LocationRetriever(downloader);
+        venueRetriever = new VenueRetriever(downloader);
     });
 
     var downloadedVenues = `
@@ -25,7 +25,7 @@ describe("Locations Retriever", function() {
                     "Alert": "Monitor for symptoms",
                     "Lon": 1.1,
                     "Lat": 1.1,
-                    "HealthAdviceHTML": "Monitor"
+                    "HealthInformationHTML": "Monitor"
                 }
             ],
             "isolate": [
@@ -38,17 +38,17 @@ describe("Locations Retriever", function() {
                     "Alert": "Isolate",
                     "Lon": 1.1,
                     "Lat": 1.1,
-                    "HealthAdviceHTML": "Isolate"
+                    "HealthInformationHTML": "Isolate"
                 }
             ]
         }
     }
     `;
 
-    it("Retrieves locations", function() {
+    it("Retrieves venues", function() {
         downloader.Download.withArgs("http://path.to.url").and.returnValue(downloadedVenues);
 
-        var result = locationRetriever.Get("http://path.to.url");
+        var result = venueRetriever.Get("http://path.to.url");
 
         expect(result).toHaveSize(2);
         expect(result[0].name).toBe("Monitor Venue 1");
@@ -57,7 +57,7 @@ describe("Locations Retriever", function() {
         expect(result[0].date).toBe("Tuesday 15 December 2020");
         expect(result[0].time).toBe("2pm to 2:30pm");
         expect(result[0].alert).toBe("Monitor for symptoms");
-        expect(result[0].healthAdviceHtml).toBe("Monitor");
+        expect(result[0].healthInformationHtml).toBe("Monitor");
         expect(result[0].type).toBe("monitor");
 
         expect(result[1].name).toBe("Isolate Venue 1");
@@ -66,7 +66,7 @@ describe("Locations Retriever", function() {
         expect(result[1].date).toBe("Wednesday 16 December 2020");
         expect(result[1].time).toBe("4pm to 4:30pm");
         expect(result[1].alert).toBe("Isolate");
-        expect(result[1].healthAdviceHtml).toBe("Isolate");
+        expect(result[1].healthInformationHtml).toBe("Isolate");
         expect(result[1].type).toBe("isolate");
     });
 });

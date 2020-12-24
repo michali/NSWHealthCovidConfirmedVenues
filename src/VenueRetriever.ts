@@ -1,26 +1,26 @@
 import { IDownloader } from "./IDownloader";
-import { ILocationRetriever } from "./ILocationRetriever";
-import { Location } from "./Location";
+import { IVenueRetriever } from "./IVenueRetriever";
+import { Venue } from "./Venue";
 
-export class LocationRetriever implements ILocationRetriever{
+export class VenueRetriever implements IVenueRetriever{
 
     constructor(private _downloader: IDownloader){        
     }
 
-    Get(url: string): Location[] {
+    Get(url: string): Venue[] {
         var data = this._downloader.Download(url);
         var jsonObj = JSON.parse(data);
-        var locations:Location[] = [];
+        var venues:Venue[] = [];
         jsonObj.data.monitor.forEach((element:any) => {
-            locations.push(this.Map(element, "monitor"));
+            venues.push(this.Map(element, "monitor"));
         });
         jsonObj.data.isolate.forEach((element:any) => {
-            locations.push(this.Map(element, "isolate"));
+            venues.push(this.Map(element, "isolate"));
         });
-        return locations;
+        return venues;
     }    
 
-    private Map(element:any, venueType:string):Location{
+    private Map(element:any, venueType:string):Venue{
         return {
             name: element.Venue,
             address: element.Address,
@@ -28,7 +28,7 @@ export class LocationRetriever implements ILocationRetriever{
             date: element.Date,
             time: element.Time,
             alert: element.Alert,
-            healthAdviceHtml: element.HealthAdviceHTML,
+            healthInformationHtml: element.HealthInformationHTML,
             type: venueType
         }
     }

@@ -1,6 +1,6 @@
-export interface Location{
+export interface Venue{
     type: string;
-    healthAdviceHtml:string;
+    healthInformationHtml:string;
     alert: string;
     time: string;
     date:string;

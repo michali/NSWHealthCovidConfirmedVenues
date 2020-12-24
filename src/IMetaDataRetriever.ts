@@ -1,5 +1,5 @@
-import { LocationMetadata } from "./LocationMetadata";
+import { VenueMetadata } from "./VenueMetadata";
 
 export interface IMetaDataRetriever {
-    Get(): LocationMetadata;
+    Get(): VenueMetadata;
 }

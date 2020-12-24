@@ -1,6 +1,6 @@
 import { IMetaDataRetriever } from "./IMetaDataRetriever";
 import {AppConfig} from "./AppConfig";
-import {LocationMetadata} from "./LocationMetadata";
+import {VenueMetadata} from "./VenueMetadata";
 import {IDownloader} from "./IDownloader";
 
 export class MetadataRetriever implements IMetaDataRetriever
@@ -11,10 +11,10 @@ export class MetadataRetriever implements IMetaDataRetriever
         this.metadataEndpointUrl = appConfig.metadataEndpointUrl;
     }    
 
-    Get(): LocationMetadata {
+    Get(): VenueMetadata {
         var data = this.downloader.Download(this.metadataEndpointUrl);        
         var jsonObj = JSON.parse(data);        
-        var LocationMetadata:LocationMetadata = jsonObj.result.resources.filter((x:any) => x.name.toLowerCase().includes("current case"))[0];
-        return LocationMetadata;
+        var venueMetadata:VenueMetadata = jsonObj.result.resources.filter((x:any) => x.name.toLowerCase().includes("current case"))[0];
+        return venueMetadata;
     }
 }
