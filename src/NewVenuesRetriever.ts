@@ -10,15 +10,17 @@ export class NewVenuesRetriever{
 
     private _existingVenuesKey = "confirmedvenues.existing";
     private _lastModifiedKey = "confirmedvenues.last_modified";
-
+    private _lastAccessedKey = "confirmedvenues.last_accessed";
     Get(): Venue[] {
         var metadata = this._venueMetadataRetriever.Get();
+
+        this._storage.Add<Date>(this._lastAccessedKey, new Date());
 
        if (metadata.last_modified === this._storage.Get<Date>(this._lastModifiedKey)){
            return [];
        }
 
-       this._storage.Add(this._lastModifiedKey, metadata.last_modified);
+        this._storage.Add(this._lastModifiedKey, metadata.last_modified);
 
         var venues = this._venueRetriever.Get(metadata.url);
 

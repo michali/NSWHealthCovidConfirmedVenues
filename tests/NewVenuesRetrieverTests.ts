@@ -231,6 +231,36 @@ describe("New Venues Retriever", function() {
         expect(venues).toHaveSize(0);
         expect(venueRetriever.Get).toHaveBeenCalledTimes(1);
     });
+
+    it("Store date and time of reaching out to get new venues", function() {
+        metadataRetriever.Get.and.returnValue({
+            last_modified: "2020-12-21T02:14:45.944132",
+            url: "https://path.to/url"
+        });
+
+        spyOn(storageWrapper, 'Add');
+
+        venueRetriever.Get.withArgs("https://path.to/url").and.returnValue([{
+            name: "venue name 1",
+            address: "address 1",
+            suburb: "suburb",
+            date: "date",
+            time: "time",
+            alert: "alert",
+            healthAdviceHtml: "health advice",
+            type:"foo"
+        }]);
+
+        jasmine.clock().install();
+        var dateTime = new Date(2020, 10, 25);
+        jasmine.clock().mockDate(dateTime);
+
+        newVenuesRetriever.Get();
+        
+        jasmine.clock().uninstall();
+
+        expect(storageWrapper.Add).toHaveBeenCalledWith("confirmedvenues.last_accessed", dateTime);
+    });
   });
       
   
