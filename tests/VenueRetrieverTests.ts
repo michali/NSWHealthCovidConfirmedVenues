@@ -91,4 +91,112 @@ describe("Venue Retriever", function() {
         expect(result[2].healthAdviceHtml).toBe("Isolate");
         expect(result[2].type).toBe("isolate");
     });
+
+    it("Not all categories available, fetch only those available - monitor", function() {
+        var monitorVenue = `{
+            "date": "2020-12-22",
+            "title": "Venues",
+            "data": {
+                "monitor": [
+                    {
+                        "Venue": "Monitor Venue 1",
+                        "Address": "Monitor Address 1",
+                        "Suburb": "Suburb1",
+                        "Date": "Tuesday 15 December 2020",
+                        "Time": "2pm to 2:30pm",
+                        "Alert": "Monitor for symptoms",
+                        "Lon": 1.1,
+                        "Lat": 1.1,
+                        "HealthAdviceHTML": "Monitor"
+                    }
+                ]
+            }
+        }`
+
+        downloader.Download.withArgs("http://path.to.url").and.returnValue(monitorVenue);
+
+        var result = venueRetriever.Get("http://path.to.url");
+
+        expect(result).toHaveSize(1);
+        expect(result[0].name).toBe("Monitor Venue 1");
+        expect(result[0].address).toBe("Monitor Address 1");
+        expect(result[0].suburb).toBe("Suburb1");
+        expect(result[0].date).toBe("Tuesday 15 December 2020");
+        expect(result[0].time).toBe("2pm to 2:30pm");
+        expect(result[0].alert).toBe("Monitor for symptoms");
+        expect(result[0].healthAdviceHtml).toBe("Monitor");
+        expect(result[0].type).toBe("monitor");       
+    });
+
+    it("Not all categories available, fetch only those available - test and self-isolate until you receive a negative result", function() {
+        var monitorVenue = `{
+            "date": "2020-12-22",
+            "title": "Venues",
+            "data": {
+                "negative": [
+                    {
+                        "Venue": "Venue 1",
+                        "Address": "Address 1",
+                        "Suburb": "Suburb1",
+                        "Date": "Tuesday 15 December 2020",
+                        "Time": "2pm to 2:30pm",
+                        "Alert": "alert",
+                        "Lon": 1.1,
+                        "Lat": 1.1,
+                        "HealthAdviceHTML": "advice"
+                    }
+                ]
+            }
+        }`
+
+        downloader.Download.withArgs("http://path.to.url").and.returnValue(monitorVenue);
+
+        var result = venueRetriever.Get("http://path.to.url");
+
+        expect(result).toHaveSize(1);
+        expect(result[0].name).toBe("Venue 1");
+        expect(result[0].address).toBe("Address 1");
+        expect(result[0].suburb).toBe("Suburb1");
+        expect(result[0].date).toBe("Tuesday 15 December 2020");
+        expect(result[0].time).toBe("2pm to 2:30pm");
+        expect(result[0].alert).toBe("alert");
+        expect(result[0].healthAdviceHtml).toBe("advice");
+        expect(result[0].type).toBe("test_until_negative");       
+    });
+
+    it("Not all categories available, fetch only those available - test and self-isolate regardless of the reult", function() {
+        var monitorVenue = `{
+            "date": "2020-12-22",
+            "title": "Venues",
+            "data": {
+                "isolate": [
+                    {
+                        "Venue": "Venue 1",
+                        "Address": "Address 1",
+                        "Suburb": "Suburb1",
+                        "Date": "Tuesday 15 December 2020",
+                        "Time": "2pm to 2:30pm",
+                        "Alert": "alert",
+                        "Lon": 1.1,
+                        "Lat": 1.1,
+                        "HealthAdviceHTML": "advice"
+                    }
+                ]
+            }
+        }`
+
+        downloader.Download.withArgs("http://path.to.url").and.returnValue(monitorVenue);
+
+        var result = venueRetriever.Get("http://path.to.url");
+
+        expect(result).toHaveSize(1);
+        expect(result[0].name).toBe("Venue 1");
+        expect(result[0].address).toBe("Address 1");
+        expect(result[0].suburb).toBe("Suburb1");
+        expect(result[0].date).toBe("Tuesday 15 December 2020");
+        expect(result[0].time).toBe("2pm to 2:30pm");
+        expect(result[0].alert).toBe("alert");
+        expect(result[0].healthAdviceHtml).toBe("advice");
+        expect(result[0].type).toBe("isolate");       
+    });
 });

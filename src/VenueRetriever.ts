@@ -11,15 +11,24 @@ export class VenueRetriever implements IVenueRetriever{
         var data = this._downloader.Download(url);
         var jsonObj = JSON.parse(data);
         var venues:Venue[] = [];
-        jsonObj.data.monitor.forEach((element:any) => {
-            venues.push(this.Map(element, "monitor"));
-        });
-        jsonObj.data.negative.forEach((element:any) => {
-            venues.push(this.Map(element, "test_until_negative"));
-        });
-        jsonObj.data.isolate.forEach((element:any) => {
-            venues.push(this.Map(element, "isolate"));
-        });
+
+        if (jsonObj.data.monitor !== undefined){
+            jsonObj.data.monitor.forEach((element:any) => {
+                venues.push(this.Map(element, "monitor"));
+            });
+        }
+
+        if (jsonObj.data.negative !== undefined){
+            jsonObj.data.negative.forEach((element:any) => {
+                venues.push(this.Map(element, "test_until_negative"));
+            });
+        }
+
+        if (jsonObj.data.isolate !== undefined){
+            jsonObj.data.isolate.forEach((element:any) => {
+                venues.push(this.Map(element, "isolate"));
+            });
+        }
         return venues;
     }    
 
