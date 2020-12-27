@@ -1,3 +1,3 @@
 export interface IDownloader{
-    Download(url:string):string;
+    Download(url:string):Promise<string>;
 }

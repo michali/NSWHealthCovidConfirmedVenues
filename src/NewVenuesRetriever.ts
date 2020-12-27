@@ -11,23 +11,20 @@ export class NewVenuesRetriever{
     private _existingVenuesKey = "confirmedvenues.existing";
     private _lastModifiedKey = "confirmedvenues.last_modified";
     private _lastAccessedKey = "confirmedvenues.last_accessed";
-    Get(): Venue[] {
+    Get(): Promise<Venue[]> {
         var metadata = this._venueMetadataRetriever.Get();
 
         this._storage.Add<Date>(this._lastAccessedKey, new Date());
 
-       if (metadata.last_modified === this._storage.Get<Date>(this._lastModifiedKey)){
-           return [];
-       }
+        if (metadata.last_modified === this._storage.Get<Date>(this._lastModifiedKey)){
+            return Promise.resolve([]);
+        }
 
-        this._storage.Add(this._lastModifiedKey, metadata.last_modified);
-
-        var venues = this._venueRetriever.Get(metadata.url);
-
+        this._storage.Add(this._lastModifiedKey, metadata.last_modified);        
         var existingVenues = this._storage.Get<Venue[]>(this._existingVenuesKey);
-
-        var newVenues = venues.filter(({ name: name1 }) => !existingVenues?.some(({ name: name2 }) => name1 === name2));
-
+        var venues = this._venueRetriever.Get(metadata.url);
+        var newVenues = venues.then(function(data){
+            return data.filter(({ name: name1 }) => !existingVenues?.some(({ name: name2 }) => name1 === name2));});
         this._storage.Add(this._existingVenuesKey, venues);    
 
         return newVenues; 

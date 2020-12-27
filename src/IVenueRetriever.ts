@@ -1,6 +1,6 @@
 import {Venue} from './Venue'
 
 export interface IVenueRetriever{
-    Get(url: string):Venue[];
+    Get(url: string):Promise<Venue[]>;
 }
 

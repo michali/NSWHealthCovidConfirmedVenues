@@ -2,8 +2,8 @@ import { IDownloader } from "./IDownloader";
 
 
 export class Downloader implements IDownloader {
-    Download(url: string): Promise {
-        var p = new Promise(function(resolve, reject){
+    Download(url: string): Promise<string> {
+        return new Promise(function(resolve, reject){
             var req = new XMLHttpRequest();
             req.open("GET", url, false);            
 
@@ -19,7 +19,7 @@ export class Downloader implements IDownloader {
             };
   
             req.send(null);
-            return req.responseText;
+            resolve(req.responseText);
         });
     }
 }
