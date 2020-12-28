@@ -11,11 +11,9 @@ export class MetadataRetriever implements IMetaDataRetriever
         this.metadataEndpointUrl = appConfig.metadataEndpointUrl;
     }    
 
-    Get(): VenueMetadata {
-        var data = this.downloader.Download(this.metadataEndpointUrl).then(function(resposeText){
-            var jsonObj = JSON.parse(data);
-        });        
-                
+    async Get(): Promise<VenueMetadata> {
+        var data = await this.downloader.Download(this.metadataEndpointUrl);            
+        var jsonObj = JSON.parse(data); 
         var venueMetadata:VenueMetadata = jsonObj.result.resources.filter((x:any) => x.name.toLowerCase().includes("current case"))[0];
         return venueMetadata;
     }

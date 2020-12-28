@@ -33,7 +33,7 @@ describe("New Venues Retriever", function() {
         newVenuesRetriever = new NewVenuesRetriever(metadataRetriever, venueRetriever, storageWrapper);
     });
           
-    it("First run gets all venues", function() {
+    it("First run gets all venues", async function() {
       
         metadataRetriever.Get.and.returnValue({
             last_modified: "2020-12-21T02:14:45.944132",
@@ -49,12 +49,12 @@ describe("New Venues Retriever", function() {
             address: "address 2"
         }]);
 
-        var updates = newVenuesRetriever.Get();
+        var updates = await newVenuesRetriever.Get();
 
         expect(updates).toHaveSize(2);
     });
 
-    it("Second run, if new venues, return only new venues", function() {
+    it("Second run, if new venues, return only new venues", async function() {
       
         metadataRetriever.Get.and.returnValue({
             last_modified: "2020-12-21T02:14:45.000000",
@@ -72,7 +72,7 @@ describe("New Venues Retriever", function() {
             type:"foo"
         }]);
 
-        newVenuesRetriever.Get();
+        await newVenuesRetriever.Get();
 
         var newVenue = {
             name: "venue name 2",
@@ -102,13 +102,13 @@ describe("New Venues Retriever", function() {
             url: "https://path.to/url"
         });
 
-        var updates = newVenuesRetriever.Get();
+        var updates = await newVenuesRetriever.Get();
 
         expect(updates).toHaveSize(1);
         expect(updates[0]).toBe(newVenue);
     });
 
-    it("Second run, if venues removed, return no updates", function() {
+    it("Second run, if venues removed, return no updates", async function() {
       
         metadataRetriever.Get.and.returnValue({
             last_modified: "2020-12-21T02:14:45.944132",
@@ -136,7 +136,7 @@ describe("New Venues Retriever", function() {
             type:"foo"
         }]);
 
-        newVenuesRetriever.Get();
+        await newVenuesRetriever.Get();
 
         venueRetriever.Get.withArgs("https://path.to/url").and.returnValue([{
             name: "venue name 1",
@@ -149,12 +149,12 @@ describe("New Venues Retriever", function() {
             type:"foo"
         }]);
 
-        var updates = newVenuesRetriever.Get();
+        var updates = await newVenuesRetriever.Get();
 
         expect(updates).toHaveSize(0);
     });
 
-    it("Second run, if set different, return new set only", function() {
+    it("Second run, if set different, return new set only", async function() {
       
         metadataRetriever.Get.and.returnValue({
             last_modified: "2020-12-21T02:14:45.000000",
@@ -202,13 +202,13 @@ describe("New Venues Retriever", function() {
 
         venueRetriever.Get.withArgs("https://path.to/url").and.returnValue([newVenue]);
 
-        var updates = newVenuesRetriever.Get();
+        var updates = await newVenuesRetriever.Get();
 
         expect(updates).toHaveSize(1);
         expect(updates[0]).toBe(newVenue);
     });
 
-    it("If data hasn't changed in second run, don't download", function() {
+    it("If data hasn't changed in second run, don't download", async function() {
         metadataRetriever.Get.and.returnValue({
             last_modified: "2020-12-21T02:14:45.944132",
             url: "https://path.to/url"
@@ -225,14 +225,14 @@ describe("New Venues Retriever", function() {
             type:"foo"
         }]);
 
-        newVenuesRetriever.Get();
-        var venues = newVenuesRetriever.Get();
+        await newVenuesRetriever.Get();
+        var venues = await newVenuesRetriever.Get();
         
         expect(venues).toHaveSize(0);
         expect(venueRetriever.Get).toHaveBeenCalledTimes(1);
     });
 
-    it("Store date and time of reaching out to get new venues", function() {
+    it("Store date and time of reaching out to get new venues", async function() {
         metadataRetriever.Get.and.returnValue({
             last_modified: "2020-12-21T02:14:45.944132",
             url: "https://path.to/url"
@@ -255,7 +255,7 @@ describe("New Venues Retriever", function() {
         var dateTime = new Date(2020, 10, 25);
         jasmine.clock().mockDate(dateTime);
 
-        newVenuesRetriever.Get();
+        await newVenuesRetriever.Get();
         
         jasmine.clock().uninstall();
 

@@ -15,7 +15,7 @@ export class Downloader implements IDownloader {
 
             // Handle network errors
             req.onerror = function() {
-                reject(Error("Network Error"));
+                reject(Error("Network Error " + req.status));
             };
   
             req.send(null);

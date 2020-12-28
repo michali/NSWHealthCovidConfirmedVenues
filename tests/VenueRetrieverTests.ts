@@ -58,10 +58,10 @@ describe("Venue Retriever", function() {
     }
     `;
 
-    it("Retrieves venues", function() {
+    it("Retrieves venues", async function() {
         downloader.Download.withArgs("http://path.to.url").and.returnValue(downloadedVenues);
 
-        var result = venueRetriever.Get("http://path.to.url");
+        var result = await venueRetriever.Get("http://path.to.url");
 
         expect(result).toHaveSize(3);
         expect(result[0].name).toBe("Monitor Venue 1");
@@ -92,7 +92,7 @@ describe("Venue Retriever", function() {
         expect(result[2].type).toBe("isolate");
     });
 
-    it("Not all categories available, fetch only those available - monitor", function() {
+    it("Not all categories available, fetch only those available - monitor", async function() {
         var monitorVenue = `{
             "date": "2020-12-22",
             "title": "Venues",
@@ -115,7 +115,7 @@ describe("Venue Retriever", function() {
 
         downloader.Download.withArgs("http://path.to.url").and.returnValue(monitorVenue);
 
-        var result = venueRetriever.Get("http://path.to.url");
+        var result = await venueRetriever.Get("http://path.to.url");
 
         expect(result).toHaveSize(1);
         expect(result[0].name).toBe("Monitor Venue 1");
@@ -128,7 +128,7 @@ describe("Venue Retriever", function() {
         expect(result[0].type).toBe("monitor");       
     });
 
-    it("Not all categories available, fetch only those available - test and self-isolate until you receive a negative result", function() {
+    it("Not all categories available, fetch only those available - test and self-isolate until you receive a negative result", async function() {
         var monitorVenue = `{
             "date": "2020-12-22",
             "title": "Venues",
@@ -151,7 +151,7 @@ describe("Venue Retriever", function() {
 
         downloader.Download.withArgs("http://path.to.url").and.returnValue(monitorVenue);
 
-        var result = venueRetriever.Get("http://path.to.url");
+        var result = await venueRetriever.Get("http://path.to.url");
 
         expect(result).toHaveSize(1);
         expect(result[0].name).toBe("Venue 1");
@@ -164,7 +164,7 @@ describe("Venue Retriever", function() {
         expect(result[0].type).toBe("test_until_negative");       
     });
 
-    it("Not all categories available, fetch only those available - test and self-isolate regardless of the reult", function() {
+    it("Not all categories available, fetch only those available - test and self-isolate regardless of the reult", async function() {
         var monitorVenue = `{
             "date": "2020-12-22",
             "title": "Venues",
@@ -187,7 +187,7 @@ describe("Venue Retriever", function() {
 
         downloader.Download.withArgs("http://path.to.url").and.returnValue(monitorVenue);
 
-        var result = venueRetriever.Get("http://path.to.url");
+        var result = await venueRetriever.Get("http://path.to.url");
 
         expect(result).toHaveSize(1);
         expect(result[0].name).toBe("Venue 1");
