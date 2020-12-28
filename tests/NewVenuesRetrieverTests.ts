@@ -261,6 +261,25 @@ describe("New Venues Retriever", function() {
 
         expect(storageWrapper.Add).toHaveBeenCalledWith("confirmedvenues.last_accessed", dateTime);
     });
+
+    it("Handles errors", async function() {
+               
+        metadataRetriever.Get.and.throwError(new Error("This has failed"));
+        spyOn(storageWrapper, 'Add');
+
+        venueRetriever.Get.withArgs("https://path.to/url").and.returnValue([{
+            name: "venue name 1",
+            address: "address 1",
+            suburb: "suburb",
+            date: "date",
+            time: "time",
+            alert: "alert",
+            healthAdviceHtml: "health advice",
+            type:"foo"
+        }]);
+
+        await expectAsync(newVenuesRetriever.Get()).toBeRejectedWithError("Error occurred when getting new venues");
+    });
   });
       
   
