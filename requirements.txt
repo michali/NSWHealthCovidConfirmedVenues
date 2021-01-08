@@ -1,0 +1,6 @@
+Have a venues updater that runs in the background
+	- Gets venues from NSW Health
+	- Marks new ones as new
+	- Marks the ones taken down as taken down
+	- Cleans venues every month
+	- Sends a notification that there are new venues or venues have been taken down

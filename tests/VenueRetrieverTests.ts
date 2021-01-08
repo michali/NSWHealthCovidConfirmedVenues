@@ -164,7 +164,7 @@ describe("Venue Retriever", function() {
         expect(result[0].type).toBe("test_until_negative");       
     });
 
-    it("Not all categories available, fetch only those available - test and self-isolate regardless of the reult", async function() {
+    it("Not all categories available, fetch only those available - test and self-isolate regardless of the result", async function() {
         var monitorVenue = `{
             "date": "2020-12-22",
             "title": "Venues",
